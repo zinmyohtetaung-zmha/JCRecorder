@@ -79,7 +79,7 @@
         </div>
       
         <div class="container d-flex justify-content-between fixed-bottom bg-white mb-4" id="foFix">
-            <div class="col"><button class="btn btn-info w-100" onclick="editSelectedRow()">Copy</button></div>
+            <div class="col"><button class="btn btn-info w-100" onclick="reportData()">Report</button></div>
             <div class="col px-3"><button class="btn btn-warning w-100" onclick="editSelectedRow()">Edit</button></div>
             <div class="col"><button class="btn btn-danger w-100" onclick="deleteRow()">Delete</button></div>
         </div> 
@@ -104,7 +104,38 @@
     <button class="btn btn-info text-white w-100 mt-4" onclick="addTechnician()">Add New Technician</button>
 </div>
 
+<!-- Overlay -->
+<div id="overlayReport" class="hidden position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75" onclick="closeReportPopup()" style="z-index: 10000;">
+</div>
+<!--Report Pop-up -->
+<div id="reportPopup" class="hidden container mt-4 position-fixed top-50 start-50 translate-middle bg-white p-3 border rounded shadow-lg" style="width: 90%; z-index: 10001;">
+    <div class="row">
+        <div class="col d-flex justify-content-between">
+            <label></label><label class="text-info" onclick="closeReportPopup()">X</label>
+        </div>
+    </div>
+    
+    <p id="textToCopy">
+        Team Gamma<br>
+        <span id="reportDate"></span> <br> <br>
+
+        Phone job - <samp id="phone"></samp> <br>
+        Remote job - <samp id="remote"></samp> <br>
+        In job - <samp id="injob"></samp> <br>
+        Out job - <samp id="outjob"></samp> <br>
+        --------------------------- <br>
+        Total Job Counts - <span id="result"></span> ခုပါ အစ်မ
+    </p>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <button id="copyButton" class="btn btn-primary w-25">Copy</button>
+        </div>
+    </div>
+</div>
+
     <script>
+        let totalIn = 0, totalOut = 0, totalRemote = 0, totalPhone = 0, grandTotal = 0;
+
         
         // daily key calculate 
         const localDate = new Date();
@@ -158,7 +189,68 @@
     function closePopup() {
         document.getElementById('overlay').classList.add('hidden'); 
         document.getElementById('popup').classList.add('hidden');
+        
     }
+
+    function reportData() {
+        document.getElementById('overlayReport').classList.remove('hidden'); 
+        document.getElementById('reportPopup').classList.remove('hidden');
+
+            document.getElementById("phone").textContent = totalPhone;
+            document.getElementById("remote").textContent = totalRemote;
+            document.getElementById("injob").textContent = totalIn;
+            document.getElementById("outjob").textContent = totalOut;
+            document.getElementById("result").textContent = grandTotal;
+
+            var currentDate = new Date();
+            var dateElement = document.getElementById("reportDate");
+            dateElement.textContent = "(" +
+                currentDate.getDate() + "/" +
+                (currentDate.getMonth() + 1) + "/" +
+                currentDate.getFullYear() + ") " +
+                getDayName(currentDate);
+    }
+
+       // Function to get the name of the day
+       function getDayName(date) {
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            return days[date.getDay()];
+        }
+
+        // Function to copy text to the clipboard
+        function copyToClipboard() {
+            const textToCopy = document.getElementById("textToCopy");
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = textToCopy.innerHTML; // Copy the HTML content
+
+            // Replace <br> elements with newline characters
+            // tempDiv.innerHTML = tempDiv.innerHTML.replace(/<br>/g, '\n');
+
+            const text = tempDiv.textContent; // Get the text content
+
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            // alert("Text copied to clipboard:\n" + text);
+        }
+
+
+        // Attach the copy function to the button click event
+        const copyButton = document.getElementById("copyButton");
+        copyButton.addEventListener("click", copyToClipboard);
+
+        
+    function closeReportPopup() {
+        document.getElementById('overlayReport').classList.add('hidden'); 
+        document.getElementById('reportPopup').classList.add('hidden');
+    }
+
+   
+
     function deleteTech() {
     let combo = document.getElementById('technicianCombo');
     let name = combo.value;
@@ -269,7 +361,6 @@
         function calculateTotal() {
             let table = document.getElementById('jobTable');
             let rows = document.getElementById('jobBody').rows;
-            let totalIn = 0, totalOut = 0, totalRemote = 0, totalPhone = 0, grandTotal = 0;
 
             // Remove existing total row before recalculating
             let existingTotalRow = document.getElementById('totalRow');
