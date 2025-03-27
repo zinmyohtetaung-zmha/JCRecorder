@@ -243,7 +243,7 @@
         const copyButton = document.getElementById("copyButton");
         copyButton.addEventListener("click", copyToClipboard);
 
-        
+
     function closeReportPopup() {
         document.getElementById('overlayReport').classList.add('hidden'); 
         document.getElementById('reportPopup').classList.add('hidden');
@@ -369,11 +369,11 @@
             // Calculate totals
             for (let i = 0; i < rows.length; i++) {
                 if (rows[i].cells.length >= 7) {
-                    totalIn += parseInt(rows[i].cells[2]?.innerText) || 0;
-                    totalOut += parseInt(rows[i].cells[3]?.innerText) || 0;
-                    totalRemote += parseInt(rows[i].cells[4]?.innerText) || 0;
-                    totalPhone += parseInt(rows[i].cells[5]?.innerText) || 0;
-                    grandTotal += parseInt(rows[i].cells[6]?.innerText) || 0;
+                    totalIn = parseInt(rows[i].cells[2]?.innerText) || 0;
+                    totalOut = parseInt(rows[i].cells[3]?.innerText) || 0;
+                    totalRemote = parseInt(rows[i].cells[4]?.innerText) || 0;
+                    totalPhone = parseInt(rows[i].cells[5]?.innerText) || 0;
+                    grandTotal = parseInt(rows[i].cells[6]?.innerText) || 0;
                 }
             }
 
