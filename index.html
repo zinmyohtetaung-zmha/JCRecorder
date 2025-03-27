@@ -46,9 +46,12 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col text-center"><span class="text-center text-info h5" id="date"></span></div>
+        </div>
         <table class="table table-bordered table-hover mt-3" id="jobTable">
             <thead>
-                <tr class="table-info"><th>No</th><th>Name</th><th>In</th><th>Out</th><th>Rmt</th><th>Phone</th><th>Total</th></tr>
+                <tr class="table-info"><th>No</th><th>Name</th><th>In </th><th>Out</th><th>Rmt</th><th>Ph </th><th>Total</th></tr>
             </thead>
             <tbody id="jobBody">
                 <tr id="noRecord"><td colspan="7">No Record</td></tr>
@@ -74,7 +77,6 @@
         
         // daily key calculate 
         const localDate = new Date();
-
         const year = localDate.getFullYear();
         const month = localDate.getMonth() + 1; // Note that months are zero-based (0 for January, 11 for December).
         const day = localDate.getDate();
@@ -88,6 +90,9 @@
         const fulldate = year + month + day; // Combine year, month, and day into a single number
 
         const result = Math.floor(datestring / fulldate);
+
+        document.getElementById("date").innerHTML = days+ "/" + months +"/"+ years;
+
 
         console.log("fulldate:", fulldate);
         console.log("datestring:", datestring);
