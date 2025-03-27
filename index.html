@@ -20,12 +20,32 @@
     <div class="container mt-4">
         <div id="topFix" class="container mt-4 fixed-top bg-white">
             <div class="row">
-        
                 <div class="col-4"><button onclick="Calculate()" class="btn btn-success w-100">Key</button></div>
                 <div class="col-3 text-center text-danger h3"><span id="key"></span></div>
+
                 <div class="col-5">
-                    <div class="row">
-                    
+                    <select id="teams" class="form-select" onchange="updateTeamName()">
+                        <option value="">Select your team</option>
+                        <option value="Team Alpha">Team Alpha</option>
+                        <option value="Team Beta">Team Beta</option>
+                        <option value="Team Gamma">Team Gamma</option>
+                        <option value="Team Delta">Team Delta</option>
+                        <option value="MDY Team1">MDY Team1</option>
+                        <option value="MDY Team2">MDY Team2</option>
+                        <option value="Nay Pyi Taw">Nay Pyi Taw</option>
+                        <option value="Pathein">Pathein</option>
+                        <option value="Taunggyi">Taunggyi</option>
+                        <option value="Myeik">Myeik</option>
+                        <option value="Mawlamyine">Mawlamyine</option>
+                        <option value="Bagan">Bagan</option>
+                        <option value="Pyay">Pyay</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">        
+                <div class="col-7"></div>
+                <div class="col-5">
+                    <div class="row">                    
                     <div class="col-7"><button class="btn btn-primary w-100" onclick="openPopup()">Add</button></div>
                     <div class="col-5"><button class="btn btn-danger w-100 " onclick="deleteTech()">X  </button></div>
                     </div>
@@ -60,7 +80,7 @@
             
         </div>
         
-        <div class="row mb-4 px-2" style="margin-top: 300px; overflow-y: auto; " id="saveSection">
+        <div class="row mb-4 px-2" style="margin-top: 340px; overflow-y: auto; " id="saveSection">
             <div class="row">
                 <div class="col text-center"><span class="text-center text-info h5" id="date"></span></div>
             </div>
@@ -121,7 +141,7 @@
     </div>
     
     <p id="textToCopy">
-        Team Gamma<br>
+        <samp id="teamName" class="h6"></samp> <br>
         <span id="reportDate"></span> <br> <br>
 
         Phone job - <samp id="phone"></samp> <br>
@@ -166,6 +186,11 @@
 
         function Calculate() {
             document.getElementById("key").innerHTML = result;
+        }
+
+        function updateTeamName() {
+            let selectedTeam = document.getElementById('teams').value; // Get the selected team value
+            document.getElementById('teamName').innerText = selectedTeam; // Update the teamName element
         }
 
         //let technicians = new Set(JSON.parse(sessionStorage.getItem('technicians')) || []);
