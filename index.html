@@ -56,12 +56,12 @@
             
         </div>
         
-        <div class="row" style="margin-top: 300px; overflow-y: auto; ">
+        <div class="row mb-4" style="margin-top: 300px; overflow-y: auto; ">
             <div class="row">
                 <div class="col text-center"><span class="text-center text-info h5" id="date"></span></div>
             </div>
             <table class="table table-bordered table-hover mt-3" id="jobTable">
-                <thead>
+                <thead class="position-sticky top-0">
                     <tr class="table-info">
                         <th style="width: 10%;">No</th>
                         <th style="width: 35%;">Name</th>
@@ -78,13 +78,14 @@
             </table>
         </div>
       
+        <div class="container d-flex justify-content-between fixed-bottom bg-white mb-4" id="foFix">
+            <div class="col"><button class="btn btn-info w-100" onclick="editSelectedRow()">Copy</button></div>
+            <div class="col px-3"><button class="btn btn-warning w-100" onclick="editSelectedRow()">Edit</button></div>
+            <div class="col"><button class="btn btn-danger w-100" onclick="deleteRow()">Delete</button></div>
+        </div> 
            
     </div>
-    <div class="container d-flex justify-content-between fixed-bottom bg-white" id="foFix">
-        <div class="col"><button class="btn btn-info w-100" onclick="editSelectedRow()">Copy</button></div>
-        <div class="col px-3"><button class="btn btn-warning w-100" onclick="editSelectedRow()">Edit</button></div>
-        <div class="col"><button class="btn btn-danger w-100" onclick="deleteRow()">Delete</button></div>
-    </div>  
+    
 
 
 <!-- Overlay -->
