@@ -165,22 +165,38 @@
             document.getElementById("key").innerHTML = result;
         }
 
-        let technicians = new Set(JSON.parse(sessionStorage.getItem('technicians')) || []);
+        //let technicians = new Set(JSON.parse(sessionStorage.getItem('technicians')) || []);
         let selectedRow = null;
-        
-        function updateSession() {
-            sessionStorage.setItem('technicians', JSON.stringify([...technicians]));
-        }
-        
-        function loadTechnicians() {
-            let combo = document.getElementById('technicianCombo');
-            combo.innerHTML = '<option value="">Select Technician</option>';
 
-            technicians.forEach(name => {
-                let option = new Option(name, name);
-                combo.add(option);
-            });
-        }
+        let technicians = new Set(JSON.parse(localStorage.getItem('technicians')) || []);
+
+function updateLocalStorage() {
+    localStorage.setItem('technicians', JSON.stringify([...technicians]));
+}
+
+function loadTechnicians() {
+    let combo = document.getElementById('technicianCombo');
+    combo.innerHTML = '<option value="">Select Technician</option>';
+    technicians.forEach(name => {
+        let option = new Option(name, name);
+        combo.add(option);
+    });
+}
+
+        
+        // function updateSession() {
+        //     sessionStorage.setItem('technicians', JSON.stringify([...technicians]));
+        // }
+        
+        // function loadTechnicians() {
+        //     let combo = document.getElementById('technicianCombo');
+        //     combo.innerHTML = '<option value="">Select Technician</option>';
+
+        //     technicians.forEach(name => {
+        //         let option = new Option(name, name);
+        //         combo.add(option);
+        //     });
+        // }
         
         function openPopup() {
         document.getElementById('overlay').classList.remove('hidden'); 
@@ -304,7 +320,8 @@
 
     // Remove from session storage
     technicians.delete(name);
-    updateSession();
+    updateLocalStorage();
+    //updateSession();
 
     // Reset selection
     combo.selectedIndex = 0;
@@ -315,7 +332,10 @@
             let name = document.getElementById('techName').value.trim();
             if (name && !technicians.has(name)) {
                 technicians.add(name);
-                updateSession();
+                // updateSession();
+                // loadTechnicians();
+
+                updateLocalStorage();
                 loadTechnicians();
             }
             else{
