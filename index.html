@@ -51,7 +51,15 @@
         </div>
         <table class="table table-bordered table-hover mt-3" id="jobTable">
             <thead>
-                <tr class="table-info"><th>No</th><th>Name</th><th>In </th><th>Out</th><th>Rmt</th><th>Ph </th><th>Total</th></tr>
+                <tr class="table-info">
+                    <th style="width: 10%;">No</th>
+                    <th style="width: 35%;">Name</th>
+                    <th style="width: 10%;">In </th>
+                    <th style="width: 10%;">Out</th>
+                    <th style="width: 10%;">Rmt</th>
+                    <th style="width: 10%;">Ph </th>
+                    <th style="width: 15%;">Total</th>
+                </tr>
             </thead>
             <tbody id="jobBody">
                 <tr id="noRecord"><td colspan="7">No Record</td></tr>
@@ -147,7 +155,7 @@
             document.getElementById('noRecord').style.display = 'none';
 
             let row = table.insertRow();
-            row.insertCell(0).innerText = table.rows.length; // Set row number dynamically
+            row.insertCell(0).innerText = 0; // Set row number dynamically
             row.insertCell(1).innerText = name;
             row.insertCell(2).innerText = inJob;
             row.insertCell(3).innerText = outJob;
@@ -169,7 +177,10 @@
         function updateRowNumbers() {
             let rows = document.getElementById('jobBody').rows;
             for (let i = 0; i < rows.length; i++) {
-                rows[i].cells[0].innerText = i + 1; // Correct row numbering
+                if(i == rows.length - 1 && i != 1)
+                    rows[i].cells[0].innerText = i - 1;
+                else
+                    rows[i].cells[0].innerText = i;
             }
         }
 
