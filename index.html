@@ -308,6 +308,18 @@ function loadTechnicians() {
         return;
     }
 
+    let rows = document.getElementById('jobBody').rows;
+    for (let i = 0; i < rows.length; i++) {
+        // Skip "No Record" row
+        if (rows[i].id === "noRecord") continue;
+
+        // Ensure cell exists before accessing innerText
+        if (rows[i].cells.length > 1 && rows[i].cells[1].innerText === name) {
+            alert('This technician recorded!');
+            return true;
+        }
+    }
+
     // Show confirmation alert before deleting
     if (!confirm(`Are you sure you want to delete technician "${name}"?`)) {
         return; // If user cancels, do nothing
@@ -316,7 +328,7 @@ function loadTechnicians() {
     // Find and remove the selected option
     for (let i = 0; i < combo.options.length; i++) {
         if (combo.options[i].value === name) {
-            combo.remove(i);
+            combo.remove(i);//zmha
             break;
         }
     }
