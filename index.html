@@ -18,7 +18,13 @@
         
             <div class="col"><button onclick="Calculate()" class="btn btn-success w-100">Key</button></div>
             <div class="col text-center text-danger h3"><span id="key"></span></div>
-            <div class="col"><button class="btn btn-primary w-100" onclick="openPopup()">Add</button></div>
+            <div class="col">
+                <div class="row">
+                
+                <div class="col-8"><button class="btn btn-primary w-100" onclick="openPopup()">Add</button></div>
+                    <div class="col-4"><button class="btn btn-danger w-100" onclick="deleteTech()">X</button></div>
+                </div>
+            </div>
         </div>
         
         <select id="technicianCombo" class="form-select mt-5"></select>
@@ -75,11 +81,21 @@
         
     </div>
 
-    <div id="popup" class="hidden position-fixed top-50 start-50 translate-middle bg-white p-3 border rounded">
-        <label>Name:</label> <input type="text" id="techName" class="form-control">
-        <button class="btn btn-primary mt-2" onclick="addTechnician()">Add</button>
-        <button class="btn btn-secondary mt-2" onclick="closePopup()">Close</button>
+<!-- Overlay -->
+<div id="overlay" class="hidden position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75" onclick="closePopup()">
+</div>
+
+<!-- Pop-up -->
+<div id="popup" class="hidden position-fixed top-50 start-50 translate-middle bg-white p-3 border rounded shadow-lg">
+    <div class="row">
+        <div class="col d-flex justify-content-between">
+            <label></label><label class="text-info" onclick="closePopup()">X</label>
+        </div>
     </div>
+    <label>Name:</label>
+    <input type="text" id="techName" class="form-control ml-4 mr-4">
+    <button class="btn btn-info text-white w-100 mt-4" onclick="addTechnician()">Add New Technician</button>
+</div>
 
     <script>
         
@@ -127,9 +143,46 @@
             });
         }
         
-        function openPopup() { document.getElementById('popup').classList.remove('hidden'); }
-        function closePopup() { document.getElementById('popup').classList.add('hidden'); }
-        
+        function openPopup() {
+        document.getElementById('overlay').classList.remove('hidden'); 
+        document.getElementById('popup').classList.remove('hidden');
+    }
+
+    function closePopup() {
+        document.getElementById('overlay').classList.add('hidden'); 
+        document.getElementById('popup').classList.add('hidden');
+    }
+    function deleteTech() {
+    let combo = document.getElementById('technicianCombo');
+    let name = combo.value;
+
+    if (!name) {
+        alert("Please select a technician to delete.");
+        return;
+    }
+
+    // Show confirmation alert before deleting
+    if (!confirm(`Are you sure you want to delete technician "${name}"?`)) {
+        return; // If user cancels, do nothing
+    }
+
+    // Find and remove the selected option
+    for (let i = 0; i < combo.options.length; i++) {
+        if (combo.options[i].value === name) {
+            combo.remove(i);
+            break;
+        }
+    }
+
+    // Remove from session storage
+    technicians.delete(name);
+    updateSession();
+
+    // Reset selection
+    combo.selectedIndex = 0;
+}
+
+
         function addTechnician() {
             let name = document.getElementById('techName').value.trim();
             if (name && !technicians.has(name)) {
@@ -137,6 +190,9 @@
                 updateSession();
                 loadTechnicians();
             }
+            else{
+                return alert('Already added Technician')
+            } 
             document.getElementById('techName').value = '';
         }
 
@@ -155,7 +211,7 @@
             document.getElementById('noRecord').style.display = 'none';
 
           
-            // CheckExitName();
+            if (CheckExitName(name)) return; 
 
             let row = table.insertRow();
             row.insertCell(0).innerText = 0; // Set row number dynamically
@@ -176,16 +232,22 @@
             updateRowNumbers(); // Ensures row numbers stay sequential
             calculateTotal();
         }
+        function CheckExitName(name) {
+    let rows = document.getElementById('jobBody').rows;
+    for (let i = 0; i < rows.length; i++) {
+        // Skip "No Record" row
+        if (rows[i].id === "noRecord") continue;
 
-        // function CheckExitName() {
-        //     let combo = document.getElementById('technicianCombo');
-        //     let name = combo.value;
-        //     let rows = document.getElementById('jobBody').rows;
-        //     for (let i = 0; i < rows.length; i++) {
-        //         if(name == rows[i].cells[1].innerText)
-        //             return alert('This technician is recorded!');
-        //     }
-        // }
+        // Ensure cell exists before accessing innerText
+        if (rows[i].cells.length > 1 && rows[i].cells[1].innerText === name) {
+            alert('This technician is already recorded!');
+            return true;
+        }
+    }
+    return false;
+}
+
+
 
         function updateRowNumbers() {
             let rows = document.getElementById('jobBody').rows;
