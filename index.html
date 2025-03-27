@@ -108,7 +108,6 @@
 
         function Calculate() {
             document.getElementById("key").innerHTML = result;
-
         }
 
         let technicians = new Set(JSON.parse(sessionStorage.getItem('technicians')) || []);
@@ -121,6 +120,7 @@
         function loadTechnicians() {
             let combo = document.getElementById('technicianCombo');
             combo.innerHTML = '<option value="">Select Technician</option>';
+
             technicians.forEach(name => {
                 let option = new Option(name, name);
                 combo.add(option);
@@ -154,6 +154,9 @@
             let table = document.getElementById('jobBody');
             document.getElementById('noRecord').style.display = 'none';
 
+          
+            // CheckExitName();
+
             let row = table.insertRow();
             row.insertCell(0).innerText = 0; // Set row number dynamically
             row.insertCell(1).innerText = name;
@@ -173,6 +176,16 @@
             updateRowNumbers(); // Ensures row numbers stay sequential
             calculateTotal();
         }
+
+        // function CheckExitName() {
+        //     let combo = document.getElementById('technicianCombo');
+        //     let name = combo.value;
+        //     let rows = document.getElementById('jobBody').rows;
+        //     for (let i = 0; i < rows.length; i++) {
+        //         if(name == rows[i].cells[1].innerText)
+        //             return alert('This technician is recorded!');
+        //     }
+        // }
 
         function updateRowNumbers() {
             let rows = document.getElementById('jobBody').rows;
@@ -208,12 +221,12 @@
             if (rows.length > 0) {
                 let totalRow = document.createElement('tr');
                 totalRow.id = "totalRow"; // Unique ID to avoid duplicates
-                totalRow.innerHTML = `<td colspan="2"><strong>Total</strong></td>
-                                      <td><strong>${totalIn}</strong></td>
-                                      <td><strong>${totalOut}</strong></td>
-                                      <td><strong>${totalRemote}</strong></td>
-                                      <td><strong>${totalPhone}</strong></td>
-                                      <td><strong>${grandTotal}</strong></td>`;
+                totalRow.innerHTML = `<td class="text-success bg-light text-center" colspan="2"><strong>Total</strong></td>
+                                      <td class="text-success bg-light"><strong>${totalIn}</strong></td>
+                                      <td class="text-success bg-light"><strong>${totalOut}</strong></td>
+                                      <td class="text-success bg-light"><strong>${totalRemote}</strong></td>
+                                      <td class="text-success bg-light"><strong>${totalPhone}</strong></td>
+                                      <td class="text-success bg-light"><strong>${grandTotal}</strong></td>`;
                 document.getElementById('jobBody').appendChild(totalRow);
             }
         }
