@@ -6,6 +6,7 @@
     <title>Job Count Recorder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; }
         .container { max-width: 700px; margin: auto; }
@@ -56,7 +57,7 @@
             
         </div>
         
-        <div class="row mb-4 px-2" style="margin-top: 300px; overflow-y: auto; ">
+        <div class="row mb-4 px-2" style="margin-top: 300px; overflow-y: auto; " id="saveSection">
             <div class="row">
                 <div class="col text-center"><span class="text-center text-info h5" id="date"></span></div>
             </div>
@@ -80,6 +81,7 @@
       
         <div class="container d-flex justify-content-between fixed-bottom bg-white mb-4" id="foFix">
             <div class="col"><button class="btn btn-info w-100" onclick="reportData()">Report</button></div>
+            <div class="col px-3"><button class="btn btn-success w-100" onclick="saveData()">Save</button></div>
             <div class="col px-3"><button class="btn btn-warning w-100" onclick="editSelectedRow()">Edit</button></div>
             <div class="col"><button class="btn btn-danger w-100" onclick="deleteRow()">Delete</button></div>
         </div> 
@@ -134,7 +136,6 @@
 </div>
 
     <script>
-        let totalIn = 0, totalOut = 0, totalRemote = 0, totalPhone = 0, grandTotal = 0;
 
         
         // daily key calculate 
@@ -196,6 +197,22 @@
         document.getElementById('overlayReport').classList.remove('hidden'); 
         document.getElementById('reportPopup').classList.remove('hidden');
 
+        let table = document.getElementById('jobTable');
+            let rows = document.getElementById('jobBody').rows;
+            let totalIn = 0, totalOut = 0, totalRemote = 0, totalPhone = 0, grandTotal = 0;
+
+
+            // Calculate totals
+            for (let i = 0; i < rows.length; i++) {
+                if (rows[i].cells.length >= 7) {
+                    totalIn += parseInt(rows[i].cells[2]?.innerText) || 0;
+                    totalOut += parseInt(rows[i].cells[3]?.innerText) || 0;
+                    totalRemote += parseInt(rows[i].cells[4]?.innerText) || 0;
+                    totalPhone += parseInt(rows[i].cells[5]?.innerText) || 0;
+                    grandTotal += parseInt(rows[i].cells[6]?.innerText) || 0;
+                }
+            }
+
             document.getElementById("phone").textContent = totalPhone;
             document.getElementById("remote").textContent = totalRemote;
             document.getElementById("injob").textContent = totalIn;
@@ -248,6 +265,18 @@
         document.getElementById('overlayReport').classList.add('hidden'); 
         document.getElementById('reportPopup').classList.add('hidden');
     }
+
+    function saveData() {
+            let section = document.getElementById('saveSection');
+            
+            html2canvas(section).then(canvas => {
+                let dateNow = new Date().toLocaleDateString();
+                let link = document.createElement('a');
+                link.href = canvas.toDataURL("image/png");
+                link.download = "JobCount("+ dateNow +").png";
+                link.click();
+            });
+        }
 
    
 
@@ -361,6 +390,8 @@
         function calculateTotal() {
             let table = document.getElementById('jobTable');
             let rows = document.getElementById('jobBody').rows;
+            let totalIn = 0, totalOut = 0, totalRemote = 0, totalPhone = 0, grandTotal = 0;
+
 
             // Remove existing total row before recalculating
             let existingTotalRow = document.getElementById('totalRow');
@@ -369,11 +400,11 @@
             // Calculate totals
             for (let i = 0; i < rows.length; i++) {
                 if (rows[i].cells.length >= 7) {
-                    totalIn = parseInt(rows[i].cells[2]?.innerText) || 0;
-                    totalOut = parseInt(rows[i].cells[3]?.innerText) || 0;
-                    totalRemote = parseInt(rows[i].cells[4]?.innerText) || 0;
-                    totalPhone = parseInt(rows[i].cells[5]?.innerText) || 0;
-                    grandTotal = parseInt(rows[i].cells[6]?.innerText) || 0;
+                    totalIn += parseInt(rows[i].cells[2]?.innerText) || 0;
+                    totalOut += parseInt(rows[i].cells[3]?.innerText) || 0;
+                    totalRemote += parseInt(rows[i].cells[4]?.innerText) || 0;
+                    totalPhone += parseInt(rows[i].cells[5]?.innerText) || 0;
+                    grandTotal += parseInt(rows[i].cells[6]?.innerText) || 0;
                 }
             }
 
