@@ -14,86 +14,90 @@
 </head>
 <body>
     <div class="container mt-4">
-        <div class="row">
+        <div id="topFix" class="container mt-4 fixed-top bg-white">
+            <div class="row">
         
-            <div class="col-4"><button onclick="Calculate()" class="btn btn-success w-100">Key</button></div>
-            <div class="col-3 text-center text-danger h3"><span id="key"></span></div>
-            <div class="col-5">
+                <div class="col-4"><button onclick="Calculate()" class="btn btn-success w-100">Key</button></div>
+                <div class="col-3 text-center text-danger h3"><span id="key"></span></div>
+                <div class="col-5">
+                    <div class="row">
+                    
+                    <div class="col-7"><button class="btn btn-primary w-100" onclick="openPopup()">Add</button></div>
+                    <div class="col-5"><button class="btn btn-danger w-100 " onclick="deleteTech()">X  </button></div>
+                    </div>
+                </div>
+            </div>
+            
+            <select id="technicianCombo" class="form-select mt-5"></select>
+            <div class="mt-3">
                 <div class="row">
-                
-                <div class="col-7"><button class="btn btn-primary w-100" onclick="openPopup()">Add</button></div>
-                <div class="col-5"><button class="btn btn-danger w-100 " onclick="deleteTech()">X  </button></div>
+                    <div class="col">
+                        <input type="number" id="inJob" class="form-control" placeholder="In Job">
+                    </div>
+                    <div class="col">
+                         <input type="number" id="outJob" class="form-control" placeholder="Out Job">
+                    </div>
+                    <div class="col">
+                        <input type="number" id="remoteJob" class="form-control" placeholder="Rmt Job">
+                    </div>
+                    <div class="col">
+                        <input type="number" id="phoneJob" class="form-control" placeholder="Ph Job">
+                    </div>
                 </div>
             </div>
+            <div class="mt-4 mb-4">
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-success w-100" onclick="addRecord()" id="addButton">Add Record</button>
+                        <button class="btn btn-warning w-100 d-none" id="updateButton" onclick="updateRecord()">Update Record</button>
+                    </div>
+                </div>
+            </div>
+            
         </div>
         
-        <select id="technicianCombo" class="form-select mt-5"></select>
-        <div class="mt-3">
+        <div class="container content" style="margin-top: 300px; overflow-y: auto; ">
             <div class="row">
-                <div class="col">
-                    <input type="number" id="inJob" class="form-control" placeholder="In Job">
-                </div>
-                <div class="col">
-                     <input type="number" id="outJob" class="form-control" placeholder="Out Job">
-                </div>
-                <div class="col">
-                    <input type="number" id="remoteJob" class="form-control" placeholder="Rmt Job">
-                </div>
-                <div class="col">
-                    <input type="number" id="phoneJob" class="form-control" placeholder="Ph Job">
-                </div>
+                <div class="col text-center"><span class="text-center text-info h5" id="date"></span></div>
             </div>
+            <table class="table table-bordered table-hover mt-3" id="jobTable">
+                <thead>
+                    <tr class="table-info">
+                        <th style="width: 10%;">No</th>
+                        <th style="width: 35%;">Name</th>
+                        <th style="width: 10%;">In </th>
+                        <th style="width: 10%;">Out</th>
+                        <th style="width: 10%;">Rmt</th>
+                        <th style="width: 10%;">Ph </th>
+                        <th style="width: 15%;">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="jobBody">
+                    <tr id="noRecord"><td colspan="7">No Record</td></tr>
+                </tbody>
+            </table>
         </div>
-        <div class="mt-4 mb-4">
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-success w-100" onclick="addRecord()" id="addButton">Add Record</button>
-                    <button class="btn btn-warning w-100 d-none" id="updateButton" onclick="updateRecord()">Update Record</button>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col text-center"><span class="text-center text-info h5" id="date"></span></div>
-        </div>
-        <table class="table table-bordered table-hover mt-3" id="jobTable">
-            <thead>
-                <tr class="table-info">
-                    <th style="width: 10%;">No</th>
-                    <th style="width: 35%;">Name</th>
-                    <th style="width: 10%;">In </th>
-                    <th style="width: 10%;">Out</th>
-                    <th style="width: 10%;">Rmt</th>
-                    <th style="width: 10%;">Ph </th>
-                    <th style="width: 15%;">Total</th>
-                </tr>
-            </thead>
-            <tbody id="jobBody">
-                <tr id="noRecord"><td colspan="7">No Record</td></tr>
-            </tbody>
-        </table>
 
-        <div class="row">
+        <div class="container mt-4 row fixed-bottom bg-white" id="foFix">
             <div class="col"><button class="btn btn-info w-100" onclick="editSelectedRow()">Copy</button></div>
             <div class="col"><button class="btn btn-warning w-100" onclick="editSelectedRow()">Edit</button></div>
             <div class="col"><button class="btn btn-danger w-100" onclick="deleteRow()">Delete</button></div>
-        </div>
-        
-        
+        </div>      
     </div>
 
 <!-- Overlay -->
-<div id="overlay" class="hidden position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75" onclick="closePopup()">
+<div id="overlay" class="hidden position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75" onclick="closePopup()" style="z-index: 10000;">
 </div>
 
 <!-- Pop-up -->
-<div id="popup" class="hidden position-fixed top-50 start-50 translate-middle bg-white p-3 border rounded shadow-lg">
+<div id="popup" class="container mt-4 position-fixed top-50 start-50 translate-middle bg-white p-3 border rounded shadow-lg" style="width: 90%; z-index: 10001;">
     <div class="row">
         <div class="col d-flex justify-content-between">
             <label></label><label class="text-info" onclick="closePopup()">X</label>
         </div>
     </div>
-    <label>Name:</label>
-    <input type="text" id="techName" class="form-control ml-4 mr-4">
+    <label class="text-info">Name:</label>
+    <input type="text" id="techName" class="form-control ml-4 mr-4" placeholder="Enter technician name">
     <button class="btn btn-info text-white w-100 mt-4" onclick="addTechnician()">Add New Technician</button>
 </div>
 
