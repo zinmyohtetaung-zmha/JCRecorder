@@ -245,19 +245,19 @@ document.addEventListener("DOMContentLoaded", function() {
     let teamSelect = document.getElementById("teams");
     let teamNameInput = document.getElementById("teamName");
 
-    // ✅ Local Storage မှာ ရှိရင် ပြန် Load လုပ်မယ်
     let savedTeam = localStorage.getItem("selectedTeam");
     if (savedTeam) {
         teamSelect.value = savedTeam;
         teamNameInput.value = savedTeam;
     }
 
-    // ✅ ComboBox မှာ Change လုပ်တိုင်း Local Storage မှာ သိမ်းမယ်
     teamSelect.addEventListener("change", function() {
         let selectedValue = this.value;
         teamNameInput.value = selectedValue;
         localStorage.setItem("selectedTeam", selectedValue);
     });
+
+    document.getElementById('teamName').innerText = savedTeam;
 });
 
 
