@@ -182,22 +182,59 @@
     <div id="report" class="hidden">
         <div class="row">
             <div class="col d-flex justify-content-between">
-                <label></label><label class="text-info" onclick="closeReportPopup()">X</label>
+                <div class="col-3"><button class="btn btn-primary w-100 active" id="btnDaily" onclick="daily()">Daily</button></div>
+                <div class="col-3"><button class="btn btn-primary w-100" id="btnWeekly" onclick="weekly()">Weekly</button></div>
+                <div class="col-3 text-end"><label class="text-info" onclick="closeReportPopup()">X</label></div>
             </div>
         </div>
+
+        <div class="row">
+            
+        </div>
+      
+        <div id="daily" class="">
+            <p id="textToCopy">
+                <samp id="teamName" class="h6"></samp> <br>
+                --------------------------- <br>
+                <span id="reportDate"></span> <br> <br>
         
-        <p id="textToCopy">
-            <samp id="teamName" class="h6"></samp> <br>
-            --------------------------- <br>
-            <span id="reportDate"></span> <br> <br>
+                Phone job - <samp id="phone"></samp> <br>
+                Remote job - <samp id="remote"></samp> <br>
+                In job - <samp id="injob"></samp> <br>
+                Out job - <samp id="outjob"></samp> <br>
+                --------------------------- <br>
+                Total Job Counts - <span id="result"></span> ခုပါ အစ်မ
+            </p>            
+        </div>
+
+        <div id="weekly" class="hidden">          
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-around"> <!-- Use col-12 to make each input field take up one row on small screens -->
+                    <span class="px-2"><input type="number" min="0" id="field1" placeholder="Phone" class="form-control"></span>
+                    <span class="px-2"><input type="number" min="0" id="field2" placeholder="Remote" class="form-control"></span>
+                    <span class="px-2"><input type="number" min="0" id="field3" placeholder="In" class="form-control"></span>
+                    <span class="px-2"><input type="number" min="0" id="field4" placeholder="Out" class="form-control"></span>
+                    <span class="px-2"><button id="addButton" class="btn btn-primary btn-block">Add</button></span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <p id="textToCopy">
+                        <samp id="teamName" class="h6"></samp> <br>
+                        <span id="dateWeekly"></span> <br>
+                        Monday to Friday <br>
     
-            Phone job - <samp id="phone"></samp> <br>
-            Remote job - <samp id="remote"></samp> <br>
-            In job - <samp id="injob"></samp> <br>
-            Out job - <samp id="outjob"></samp> <br>
-            --------------------------- <br>
-            Total Job Counts - <span id="result"></span> ခုပါ အစ်မ
-        </p>
+                        Phone job - <samp id="phone"></samp> <br>
+                        Remote job - <samp id="remote"></samp> <br>
+                        In job - <samp id="injob"></samp> <br>
+                        Out job - <samp id="outjob"></samp> <br>
+                        --------------------------- <br>
+                        Total Job Counts - <span id="result"></span> ခုပါ အစ်မ
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col d-flex justify-content-center">
                 <button id="copyButton" class="btn btn-primary w-25">Copy</button>
@@ -346,6 +383,8 @@ function loadTechnicians() {
             rpSStatus = 1;
         document.getElementById('report').classList.remove('hidden'); 
 
+        daily();
+
             let table = document.getElementById('jobTable');
             let rows = document.getElementById('jobBody').rows;
             let totalIn = 0, totalOut = 0, totalRemote = 0, totalPhone = 0, grandTotal = 0;
@@ -379,6 +418,39 @@ function loadTechnicians() {
             rpSStatus=0;
             document.getElementById('share').classList.remove('hidden'); 
          }
+    }
+
+    function weekly() {
+
+        alert("Developing state!");
+        return;
+
+        document.getElementById('weekly').classList.remove('hidden'); 
+        document.getElementById('btnWeekly').classList.add('active'); 
+        document.getElementById('daily').classList.add('hidden');
+        document.getElementById('btnDaily').classList.remove('active'); 
+
+            // Generate the current date and update it in the document
+            var currentDate = new Date();
+            var fiveDaysAgo = new Date(currentDate);
+            fiveDaysAgo.setDate(currentDate.getDate() - 4);
+
+            var dateElement = document.getElementById("dateWeekly");
+            dateElement.textContent = "(" +
+                (fiveDaysAgo.getDate()) + "/" + // Adding 1 to the day to display the correct date
+                (fiveDaysAgo.getMonth() + 1) + "/" + // Adding 1 to the month to display the correct month
+                fiveDaysAgo.getFullYear() + ") " + "to (" +
+                (currentDate.getDate() ) + "/" + // Adding 1 to the day to display the correct date
+                (currentDate.getMonth() + 1) + "/" +
+                currentDate.getFullYear() + ")";
+        
+    }
+
+    function daily() {
+        document.getElementById('daily').classList.remove('hidden'); 
+        document.getElementById('btnDaily').classList.add('active'); 
+        document.getElementById('weekly').classList.add('hidden');
+        document.getElementById('btnWeekly').classList.remove('active'); 
     }
 
        // Function to get the name of the day
