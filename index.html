@@ -19,13 +19,12 @@
 <body class="bg-light">
     <div class="container bg-light">
        
-
         <div id="topFix" class="container fixed-top bg-light">
             <div class="row py-2">
                 <div class="col-8">
                     <h5 class="text-info" style="padding-top: 0px;">Job Count Recorder</h5>
                 </div>
-                <div class="col-4 d-flex justify-content-end">                    
+                <div class="col-4 d-flex justify-content-end">                   
                     <a href="http://zinmyohtetaung-zmha.vercel.app" target="_blank" class="px-2"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Developer">
                         <img src="assets/developer.png" alt="Responsive image" style="width: 2rem; height: 2rem;">
                     </a>
@@ -179,23 +178,22 @@
 </div>
 <!--Report Pop-up -->
 <div id="reportPopup" class="hidden container mt-4 position-fixed top-50 start-50 translate-middle bg-white p-3 border rounded shadow-lg" style="width: 90%; z-index: 10001;">
-    <div id="report" class="hidden">
+    <div id="report" class="hidden" style="height: 65vh;">
         <div class="row">
             <div class="col d-flex justify-content-between">
-                <div class="col-3"><button class="btn btn-primary w-100 active" id="btnDaily" onclick="daily()">Daily</button></div>
-                <div class="col-3"><button class="btn btn-primary w-100" id="btnWeekly" onclick="weekly()">Weekly</button></div>
+                <div class="col-3"><button class="btn btn-outline-success w-100 active" id="btnDaily" onclick="daily()">Daily</button></div>
+                <div class="col-3"><button class="btn btn-outline-success w-100" id="btnWeekly" onclick="weekly()">Weekly</button></div>
                 <div class="col-3 text-end"><label class="text-info" onclick="closeReportPopup()">X</label></div>
             </div>
         </div>
-
+        <hr>
         <div class="row">
             
         </div>
       
         <div id="daily" class="">
-            <p id="textToCopy">
-                <samp id="teamName" class="h6"></samp> <br>
-                --------------------------- <br>
+            <p id="textToCopy" class="mb-3">
+                <samp id="teamName"></samp> <br>
                 <span id="reportDate"></span> <br> <br>
         
                 Phone job - <samp id="phone"></samp> <br>
@@ -204,32 +202,33 @@
                 Out job - <samp id="outjob"></samp> <br>
                 --------------------------- <br>
                 Total Job Counts - <span id="result"></span> ခုပါ အစ်မ
-            </p>            
+            </p>   
         </div>
 
         <div id="weekly" class="hidden">          
             <div class="row mt-2">
                 <div class="col d-flex justify-content-around"> <!-- Use col-12 to make each input field take up one row on small screens -->
-                    <span class="px-2"><input type="number" min="0" id="field1" placeholder="Phone" class="form-control"></span>
-                    <span class="px-2"><input type="number" min="0" id="field2" placeholder="Remote" class="form-control"></span>
-                    <span class="px-2"><input type="number" min="0" id="field3" placeholder="In" class="form-control"></span>
-                    <span class="px-2"><input type="number" min="0" id="field4" placeholder="Out" class="form-control"></span>
-                    <span class="px-2"><button id="addButton" class="btn btn-primary btn-block">Add</button></span>
+                    <span class="px-2"><input type="number" min="0" id="wIn" placeholder="In" class="form-control"></span>
+                    <span class="px-2"><input type="number" min="0" id="wOut" placeholder="Out" class="form-control"></span>
+                    <span class="px-2"><input type="number" min="0" id="wRmt" placeholder="Remote" class="form-control"></span>
+                    <span class="px-2"><input type="number" min="0" id="wPh" placeholder="Phone" class="form-control"></span>
+
+                    <span class="px-2"><button id="addButton" class="btn btn-primary btn-block" onclick="weeklyAdd()">Add</button></span>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <p id="textToCopy">
-                        <samp id="teamName" class="h6"></samp> <br>
+                    <p id="textToCopyWeekly">
+                        <samp id="teamNameWeekly"></samp> <br>
                         <span id="dateWeekly"></span> <br>
                         Monday to Friday <br>
     
-                        Phone job - <samp id="phone"></samp> <br>
-                        Remote job - <samp id="remote"></samp> <br>
-                        In job - <samp id="injob"></samp> <br>
-                        Out job - <samp id="outjob"></samp> <br>
+                        Phone job - <samp id="wphone">0</samp> <br>
+                        Remote job - <samp id="wremote">0</samp> <br>
+                        In job - <samp id="winjob">0</samp> <br>
+                        Out job - <samp id="woutjob">0</samp> <br>
                         --------------------------- <br>
-                        Total Job Counts - <span id="result"></span> ခုပါ အစ်မ
+                        Total Job Counts - <span id="wresult">0</span> ခုပါ အစ်မ
                     </p>
                 </div>
             </div>
@@ -295,6 +294,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     document.getElementById('teamName').innerText = savedTeam;
+    document.getElementById('teamNameWeekly').innerText = savedTeam;
+
 });
 
 
@@ -420,10 +421,11 @@ function loadTechnicians() {
          }
     }
 
+    var copyStatus = 0;
     function weekly() {
 
-        alert("Developing state!");
-        return;
+        // alert("Developing state!");
+        // return;
 
         document.getElementById('weekly').classList.remove('hidden'); 
         document.getElementById('btnWeekly').classList.add('active'); 
@@ -443,6 +445,8 @@ function loadTechnicians() {
                 (currentDate.getDate() ) + "/" + // Adding 1 to the day to display the correct date
                 (currentDate.getMonth() + 1) + "/" +
                 currentDate.getFullYear() + ")";
+
+            copyStatus = 1;
         
     }
 
@@ -451,7 +455,45 @@ function loadTechnicians() {
         document.getElementById('btnDaily').classList.add('active'); 
         document.getElementById('weekly').classList.add('hidden');
         document.getElementById('btnWeekly').classList.remove('active'); 
+
+        copyStatus = 0;
     }
+
+    // Initialize variables
+var weeklyIN = 0;
+var weeklyOut = 0;
+var weeklyPh = 0;
+var weeklyRmt = 0;
+
+function weeklyAdd() {
+    // Get input values (Ensure they are numbers)
+    let inValue = parseFloat(document.getElementById("wIn").value) || 0;
+    let outValue = parseFloat(document.getElementById("wOut").value) || 0;
+    let phValue = parseFloat(document.getElementById("wPh").value) || 0;
+    let rmtValue = parseFloat(document.getElementById("wRmt").value) || 0;
+
+    // Add values to global variables
+    weeklyIN += inValue;
+    weeklyOut += outValue;
+    weeklyPh += phValue;
+    weeklyRmt += rmtValue;
+
+    // Calculate total
+    var Weeklysum = weeklyIN + weeklyOut + weeklyPh + weeklyRmt;
+
+    // Update display
+    document.getElementById("wphone").textContent = weeklyPh;
+    document.getElementById("wremote").textContent = weeklyRmt;
+    document.getElementById("winjob").textContent = weeklyIN;
+    document.getElementById("woutjob").textContent = weeklyOut;
+    document.getElementById("wresult").textContent = Weeklysum;
+
+    // Clear input fields
+    document.getElementById("wIn").value = "";
+    document.getElementById("wOut").value = "";
+    document.getElementById("wPh").value = "";
+    document.getElementById("wRmt").value = "";
+}
 
        // Function to get the name of the day
        function getDayName(date) {
@@ -461,9 +503,17 @@ function loadTechnicians() {
 
         // Function to copy text to the clipboard
         function copyToClipboard() {
-            const textToCopy = document.getElementById("textToCopy");
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = textToCopy.innerHTML; // Copy the HTML content
+            var tempDiv = "";
+            if (copyStatus == 0) {
+                const textToCopy = document.getElementById("textToCopy");
+                tempDiv = document.createElement("div");
+                tempDiv.innerHTML = textToCopy.innerHTML; // Copy the HTML content
+            } else {
+                const textToCopy = document.getElementById("textToCopyWeekly");
+                tempDiv = document.createElement("div");
+                tempDiv.innerHTML = textToCopy.innerHTML; // Copy the HTML content
+            }
+            
 
             // Replace <br> elements with newline characters
             // tempDiv.innerHTML = tempDiv.innerHTML.replace(/<br>/g, '\n');
