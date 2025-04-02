@@ -311,7 +311,7 @@ if (dt === '' ) {
     document.getElementById('footer').classList.remove('hidden');     
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
     let teamSelect = document.getElementById("teams");
     let teamNameInput = document.getElementById("teamName");
 
@@ -320,7 +320,6 @@ document.addEventListener("DOMContentLoaded", function() {
         teamSelect.value = savedTeam;
         teamNameInput.value = savedTeam;
     }
-
     teamSelect.addEventListener("change", function() {
         let selectedValue = this.value;
         teamNameInput.value = selectedValue;
@@ -330,12 +329,16 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('teamName').innerText = savedTeam;
     document.getElementById('teamNameWeekly').innerText = savedTeam;
 
+    let today = new Date();
+    let day = String(today.getDate()).padStart(2, '0'); 
+    let month = String(today.getMonth() + 1).padStart(2, '0'); 
+    let year = today.getFullYear();
+    
+    let formattedDate = `${day}/${month}/${year}`;
+    document.getElementById("datePicker").value = formattedDate;
+
 });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        let today = new Date().toISOString().split('T')[0];
-        document.getElementById("datePicker").value = today;
-    });
 
         // daily key calculate 
         const localDate = new Date();
