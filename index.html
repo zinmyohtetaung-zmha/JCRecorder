@@ -52,7 +52,7 @@
                 <!-- <div class="col-3 text-center text-danger h3"><span id="key"></span></div> -->
 
                 <div class="col-6">
-                    <input type="date" class="form-control">                    
+                    <input type="date" class="form-control" id="datePicker">                     
                 </div>
                 <div class="col-6">
                     <select id="teams" class="form-select" onchange="updateTeamName()">
@@ -332,6 +332,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
+    document.addEventListener("DOMContentLoaded", function() {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("datePicker").value = today;
+    });
 
         // daily key calculate 
         const localDate = new Date();
