@@ -759,6 +759,7 @@ function weeklyAdd() {
             let total = inJob + outJob + remoteJob + phoneJob;
 
             if (!name) return alert('Select a Technician');
+            if (total <= 0) return alert('Add Jobs for Selected Technician!');
 
             let table = document.getElementById('jobBody');
             document.getElementById('noRecord').style.display = 'none';
@@ -920,7 +921,13 @@ function weeklyAdd() {
                 selectedRow = null;
                 updateRowNumbers(); // Update row numbers after deletion
                 calculateTotal();
-                if (document.getElementById('jobBody').rows.length === 0) {
+                  // Check if there are any visible data rows (excluding the 'noRecord' row)
+                  let visibleRows = Array.from(document.getElementById('jobBody').rows)
+            .filter(row => row.id !== 'noRecord' && row.style.display !== 'none');
+
+        console.log("Visible Rows Count:", visibleRows.length);
+
+                if (visibleRows.length === 0) {
                     document.getElementById('noRecord').style.display = 'table-row';
                 }
             }
