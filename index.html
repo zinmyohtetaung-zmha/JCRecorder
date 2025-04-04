@@ -329,14 +329,7 @@ if (dt === '' ) {
     document.getElementById('teamName').innerText = savedTeam;
     document.getElementById('teamNameWeekly').innerText = savedTeam;
 
-    let today = new Date();
-    let day = String(today.getDate()).padStart(2, '0'); 
-    let month = String(today.getMonth() + 1).padStart(2, '0'); 
-    let year = today.getFullYear();
-    
-    let formattedDate = `${day}/${month}/${year}`;
-    document.getElementById("datePicker").value = formattedDate;
-
+//   section date picker 
 });
 
 
