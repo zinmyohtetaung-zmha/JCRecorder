@@ -326,11 +326,40 @@ if (dt === '' ) {
         localStorage.setItem("selectedTeam", selectedValue);
     });
 
+
+    const localDate = new Date();
+
+    // Format to yyyy-mm-dd
+    const yyyy = localDate.getFullYear();
+    const mm = String(localDate.getMonth() + 1).padStart(2, '0');
+    const dd = String(localDate.getDate()).padStart(2, '0');
+
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    document.getElementById('datePicker').value = formattedDate;
+
     document.getElementById('teamName').innerText = savedTeam;
     document.getElementById('teamNameWeekly').innerText = savedTeam;
 
 //   section date picker 
 });
+
+document.getElementById('datePicker').addEventListener('change', function () {
+    const inputDate = this.value; // yyyy-mm-dd
+    if (inputDate) {
+        const [year, month, day] = inputDate.split('-');
+        const formattedDate = `${day}/${month}/${year}`;
+
+        const dateObj = new Date(inputDate);
+        const options = { weekday: 'long' }; // for day name
+        const dayName = dateObj.toLocaleDateString('en-US', options);
+
+        document.getElementById('date').textContent = `${formattedDate} - ${dayName}`;
+
+    } else {
+        document.getElementById('date').textContent = '';
+    }
+});
+
 
 
         // daily key calculate 
