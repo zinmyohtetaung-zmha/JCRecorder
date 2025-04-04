@@ -346,7 +346,18 @@ if (dt === '' ) {
 
 document.getElementById('datePicker').addEventListener('change', function () {
     const inputDate = this.value; // yyyy-mm-dd
+
     if (inputDate) {
+
+        const selectDate = new Date(inputDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // clear time
+
+        if (selectDate > today) {
+            alert("Date is greater than today");           
+            return;
+        }
+
         const [year, month, day] = inputDate.split('-');
         const formattedDate = `${day}/${month}/${year}`;
 
